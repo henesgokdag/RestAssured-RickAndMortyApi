@@ -4,11 +4,11 @@ import io.restassured.RestAssured;
 import Models.Character;
 import java.util.List;
 
-public class CharacterService {
+public class CharacterService extends BaseService {
     public List<Character> getAllCharacters() {
-        List<Character> characterList = RestAssured.given()
+        List<Character> characterList = setupRequestSpecification()
                 .when()
-                .get("https://rickandmortyapi.com/api/character")
+                .get("/character")
                 .then()
                 .statusCode(200)
                 .extract()
@@ -17,9 +17,10 @@ public class CharacterService {
     }
 
     public List<Character> getAllCharactersByName(String name){
-        List<Character> characterList = RestAssured.given()
+        List<Character> characterList = setupRequestSpecification()
+                .param("name",name)
                 .when()
-                .get("https://rickandmortyapi.com/api/character?name="+name)
+                .get("/character")
                 .then()
                 .statusCode(200)
                 .extract()
